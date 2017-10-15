@@ -1,0 +1,24 @@
+<md-card class="container">
+  <md-select placeholder="Group by" [(ngModel)]="groupBy">
+    <md-option *ngFor="let product of groupByOptions" [value]="product">
+      {{product}}
+    </md-option>
+  </md-select>
+
+  <md-form-field>
+    <input type="number" mdInput placeholder="Product ID (1-100)"
+           [(ngModel)]="productId" [formControl]="productIDControl">
+    <md-error *ngIf="productIDControl.hasError('required')">
+      Product ID is required
+    </md-error>
+    <md-error *ngIf="invalidProductID && !productIDControl.hasError('required')">
+      Invalid product ID
+    </md-error>
+  </md-form-field>
+
+  <button md-raised-button color="primary" (click)="drawSvg()">Show</button>
+</md-card>
+
+<md-card>
+  <svg width="1000" height="600"></svg>
+</md-card>

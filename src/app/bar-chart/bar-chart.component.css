@@ -1,0 +1,13 @@
+.container {
+  display: flex;
+  align-items: center;
+}
+
+md-form-field {
+  margin: 1.25em 2em 0em 2em;
+}
+
+svg {
+  display: block;
+  margin: auto;
+}
