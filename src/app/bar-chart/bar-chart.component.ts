@@ -50,7 +50,7 @@ export class BarChartComponent implements OnInit {
 
     // setting up the svg variables
     const svg = d3.select('svg'),
-      margin = {top: 20, right: 20, bottom: 30, left: 40},
+      margin = {top: 20, right: 20, bottom: 30, left: 50},
       width = +svg.attr('width') - margin.left - margin.right,
       height = +svg.attr('height') - margin.top - margin.bottom;
 
@@ -129,19 +129,17 @@ export class BarChartComponent implements OnInit {
 
       // x-axis
       g.append('g')
-        .attr('class', 'axis axis--x')
         .attr('transform', 'translate(0,' + height + ')')
         .call(d3.axisBottom(x));
 
       // y-axis
       g.append('g')
-        .attr('class', 'axis axis--y')
-        .call(d3.axisLeft(y).ticks(10))
+        .call(d3.axisLeft(y))
         .append('text')
         .attr('transform', 'rotate(-90)')
         .attr('y', 6)
         .attr('dy', '0.71em')
-        .attr('text-anchor', 'end');
+        .style('text-anchor', 'end');
 
       // bars
       const rects = g.selectAll('rect')
