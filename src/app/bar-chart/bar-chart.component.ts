@@ -33,7 +33,7 @@ export class BarChartComponent implements OnInit {
       return;
     }
 
-    if (this.productId >= 0 && this.productId <= 100) {
+    if (this.productId >= 1 && this.productId <= 100) {
       this.productIDControl.setErrors(null);
       this.invalidProductID = false;
     } else {
@@ -70,15 +70,26 @@ export class BarChartComponent implements OnInit {
     const productId = this.productId;
     const june2014weekStarts = ['6/2/2014', '6/9/2014', '6/16/2014', '6/23/2014', '6/30/2014'];
     let previousDate = june2014weekStarts[0];
-    let weeksCounter = 1;
+    let previousProduct = 'Product 1';
+    let productChanged = false;
+    let weekCounter = 1;
     let sum = 0;
 
-    d3.csv('../../assets/Daily Inventory.csv', (d, i) => {
+    d3.csv('../../assets/Daily Inventory.csv', (d) => {
       d[yName] = +d[yName];
 
-      if (+(d['Product ID'] as string).split(' ')[1] === productId) {
+      if (('Product ' + productId) === previousProduct && previousProduct !== d['Product ID']) {
+        productChanged = true;
+        previousProduct = d['Product ID'];
+      } else {
+        productChanged = false;
+        previousProduct = d['Product ID'];
+      }
+
+      if (+(d['Product ID'] as string).split(' ')[1] === productId || productChanged) {
+
         if (groupBy === 'Day') {
-          if (previousDate !== d[xName] || i === 99) {
+          if (previousDate !== d[xName] || productChanged) {
             const tempSum = sum;
             const tempDate = previousDate;
             sum = 0;
@@ -93,15 +104,14 @@ export class BarChartComponent implements OnInit {
           }
 
         } else {
-          if ((previousDate !== d[xName] && june2014weekStarts.includes(d[xName])) ||
-            i === 99) {
+          if ((previousDate !== d[xName] && june2014weekStarts.includes(d[xName])) || productChanged) {
             const tempSum = sum;
             sum = 0;
             sum += d[yName];
             previousDate = d[xName];
             d[yName] = tempSum;
-            d[xName] = weeksCounter;
-            weeksCounter++;
+            d[xName] = weekCounter;
+            weekCounter++;
             return d;
           } else {
             sum += d[yName];
