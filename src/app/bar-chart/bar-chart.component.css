@@ -3,11 +3,23 @@
   align-items: center;
 }
 
+.uploadBtn {
+  margin-right: 2em;
+}
+
 md-form-field {
-  margin: 1.25em 2em 0 2em;
+  margin: 0 1em;
+}
+
+md-spinner {
+  height: 4.1em;
 }
 
 svg {
   display: block;
   margin: auto;
+}
+
+.uploadInput {
+  display: none;
 }

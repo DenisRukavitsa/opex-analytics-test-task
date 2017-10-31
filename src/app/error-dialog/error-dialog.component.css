@@ -1,0 +1,11 @@
+h4 {
+  color: red;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.dialog-content {
+  font-family: arial, serif
+}

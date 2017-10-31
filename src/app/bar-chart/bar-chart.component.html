@@ -1,24 +1,34 @@
 <md-card class="container">
-  <md-select placeholder="Group by" [(ngModel)]="groupBy">
-    <md-option *ngFor="let product of groupByOptions" [value]="product">
-      {{product}}
-    </md-option>
-  </md-select>
+  <input class="uploadInput" type="file" accept=".csv" (change)="csvUploaded($event)" #uploadInput>
+  <button class="uploadBtn" md-raised-button color="primary"  (click)="uploadCsv(uploadInput)">
+    Upload CSV
+  </button>
+  <md-spinner *ngIf="uploadLoading"></md-spinner>
 
-  <md-form-field>
-    <input type="number" mdInput placeholder="Product ID (1-100)" [formControl]="productIDControl"
-           [(ngModel)]="productId" (keydown.enter)="drawSvg()">
-    <md-error *ngIf="productIDControl.hasError('required')">
-      Product ID is required
-    </md-error>
-    <md-error *ngIf="invalidProductID && !productIDControl.hasError('required')">
-      Invalid product ID
-    </md-error>
-  </md-form-field>
+  <div class="controls" *ngIf="!uploadLoading && productIds.length">
+    <md-select placeholder="Group by" [(ngModel)]="groupBy">
+      <md-option *ngFor="let groupBy of groupByOptions" [value]="groupBy">
+        {{groupBy}}
+      </md-option>
+    </md-select>
 
-  <button md-raised-button color="primary" (click)="drawSvg()">Show</button>
+    <md-form-field>
+      <input type="number" mdInput placeholder="Product ID" [formControl]="productIDControl"
+             [(ngModel)]="productId" (keydown.enter)="drawSvg()">
+      <md-error *ngIf="productIdError === 'required'">
+        Product ID is required
+      </md-error>
+      <md-error *ngIf="productIdError === 'undefined'">
+        Undefined product ID
+      </md-error>
+    </md-form-field>
+
+    <button md-raised-button color="primary" (click)="drawSvg()">Show</button>
+  </div>
+
+  <md-spinner *ngIf="showLoading"></md-spinner>
 </md-card>
 
 <md-card>
-  <svg width="1000" height="600"></svg>
+  <svg class="chart" width="1000" height="600"></svg>
 </md-card>
