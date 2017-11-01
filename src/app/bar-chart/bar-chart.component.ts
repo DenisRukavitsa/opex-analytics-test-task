@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder } from '@angular/forms';
 import { HttpService } from '../http.service';
 import { MdDialog } from '@angular/material';
@@ -10,7 +10,7 @@ import * as d3 from 'd3';
   templateUrl: './bar-chart.component.html',
   styleUrls: ['./bar-chart.component.css']
 })
-export class BarChartComponent implements OnInit {
+export class BarChartComponent {
   readonly groupByOptions = ['day', 'week'];
   readonly mandatoryColumns = ['Date', 'On Hand Value'];
   uploadLoading = true;
@@ -40,9 +40,6 @@ export class BarChartComponent implements OnInit {
     this.productIDControl.setErrors(null);
 
     this.fetchProductIds();
-  }
-
-  ngOnInit() {
   }
 
   // Upload CSV button click handler

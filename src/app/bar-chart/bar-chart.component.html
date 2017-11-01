@@ -1,10 +1,17 @@
 <md-card class="container">
+  <!--Upload input and button. Disabled when uploading is in progress-->
   <input class="uploadInput" type="file" accept=".csv" (change)="csvUploaded($event)" #uploadInput>
-  <button class="uploadBtn" md-raised-button color="primary"  (click)="uploadCsv(uploadInput)">
+  <button class="uploadBtn" *ngIf="!uploadLoading" md-raised-button color="primary"
+          (click)="uploadCsv(uploadInput)">
+    Upload CSV
+  </button>
+  <button class="uploadBtn" *ngIf="uploadLoading" md-raised-button disabled
+          color="primary" (click)="uploadCsv(uploadInput)">
     Upload CSV
   </button>
   <md-spinner *ngIf="uploadLoading"></md-spinner>
 
+  <!--Group By and Product ID controls. Not visible if uploading is in progress or DB is empty-->
   <div class="controls" *ngIf="!uploadLoading && productIds.length">
     <md-select placeholder="Group by" [(ngModel)]="groupBy">
       <md-option *ngFor="let groupBy of groupByOptions" [value]="groupBy">
@@ -25,10 +32,10 @@
 
     <button md-raised-button color="primary" (click)="drawSvg()">Show</button>
   </div>
-
   <md-spinner *ngIf="showLoading"></md-spinner>
 </md-card>
 
+<!--SVG group-->
 <md-card>
   <svg class="chart" width="1000" height="600"></svg>
 </md-card>
